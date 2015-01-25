@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Carbon Dioxide Data from Mauna Loa</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Carbon Dioxide Data from Mauna Loa">
+  <meta name="author" content="Dennis Noren">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Carbon Dioxide Data from Mauna Loa</h1>
+    <h2>Monitoring and Predictions</h2>
+    <p>Dennis Noren<br/>Data Scientist</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Dataset</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Source: Scripps Institution of Oceanography, University of California  and NOAA; data are obtained from the &#39;datasets&#39; package included in Base R, structured as a time series</li>
+</ul>
+
+<pre><code class="r">summary(co2)  # values are in parts per million (ppm)
+</code></pre>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     313     324     335     337     350     367
+</code></pre>
+
+<ul>
+<li>The monitoring station is at an elevation of about 11,150 feet on the slopes of Mauna Loa on the island of Hawaii.  This location makes the measurements unaffected by temperature inversions and other effects that might produce local variations (exception: measurements are adjusted to account for local outgassing of CO2 from the volcano)</li>
+<li>The idea is that this dataset is a close approximation to ambient CO2 levels for the entire earth.</li>
+<li>Dataset has monthly averages from the years 1959 through 1997 (more recent data have been collected but are not included in this dataset)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Decomposition of Time Series</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Seasonal period is very obvious, caused by the fact that the great majority of Earth&#39;s biomass lies in the Northern Hemisphere</li>
+<li>Function &#39;stl&#39; from R base stats package is used to decompose the time series into seasonal, trend, and residual components</li>
+<li>The &#39;forecast&#39; function from the &#39;forecast&#39; package is used to predict based on the decomposition</li>
+<li>The user controls which year the decomposition starts, always using 1997 as the model end point</li>
+<li>The user controls how many years of forecasting are produced (beyond 1997)</li>
+<li>The user also controls reference lines for the CO2 level and year, but these do not affect the model</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Observations of Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Along with the upward trend, there seems to be a moderate acceleration of CO2 levels</li>
+<li>The stl decomposition model does not include a quadratic form to account for this (other types of models could do this)</li>
+<li>If we restrict the starting year for the model, we get some idea of this acceleration</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Model Start</th>
+<th>Forecast to Reach 380 Annual avg</th>
+<th>Forecast to Reach 390 Annual avg</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1959</td>
+<td>2009</td>
+<td>2017</td>
+</tr>
+<tr>
+<td>1969</td>
+<td>2008</td>
+<td>2015</td>
+</tr>
+<tr>
+<td>1979</td>
+<td>2008</td>
+<td>2014</td>
+</tr>
+<tr>
+<td>1984</td>
+<td>2008</td>
+<td>2015</td>
+</tr>
+<tr>
+<td>1994</td>
+<td>2007</td>
+<td>2013</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>More recent data show the acceleration continuing: annual averages of 380 ppm in 2005 and 390 ppm in 2010 have been recorded</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Extensions that Could be Made</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Include more recent data</li>
+<li>Include quadratic trend effect</li>
+<li>Include a tabular view of dataset</li>
+<li>Include specific numeric data predictions</li>
+<li>Compare predictions with actuals for recent years</li>
+<li>Compare results with monitoring stations from other locations</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Dataset'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Decomposition of Time Series'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Observations of Results'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Extensions that Could be Made'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
